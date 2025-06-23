@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="hover:underline">Bienvenido a la sección de clasificaciones ABC</h1>
+<p>En esta aplicación podrás hacer muchas cosas para tus inventarios</p>
+<form id="abecedear">
+    <fieldset>
+        <legend>Búsqueda de la clasificación ABC</legend>
+        <div>
+            <input type="radio" name="visiones" id="primero" value="primero" checked>
+            <label for="primero">Usando archivo .csv</label>
+            <input type="radio" name="visiones" id="segundo" value="segundo">
+            <label for="segundo">Escribiendo manualemente</label>
+        </div>
+        <div id="completo">
+            <label for="archivo">Archivo csv de los datos: </label> <br>
+            <small>
+                Tiene que estar dividido por (nombre de los productos, sus demandas y sus costos unitarios)
+            </small> <br>
+            <input type="file" name="archivo" id="archivo" accept="text/csv">
+        </div>
+        <div id="dividido">
+            <label for="nombres">Lista de nombres de productos (opcional):</label> <br>
+            <textarea name="nombres" id="nombres" 
+                placeholder="Cada línea es un dato..."></textarea> <br>
+            <label for="demandas">Lista de demandas: </label> <br>
+            <textarea name="demandas" id="demandas" 
+                placeholder="Cada línea es un dato..."></textarea> <br>
+            <label for="costos">Lista de costos: </label> <br>
+            <textarea name="costos" id="costos" placeholder="Cada línea es un dato..."></textarea>
+        </div>
+        <br>
+        <button type="submit">Obtener respuesta</button>
+    </fieldset>
+</form>
+{% block respuesta %}{% endblock %}
+{% endblock %}

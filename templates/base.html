@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', path='style.css') }}">
+    <script src="{{ url_for('static', path='index.js') }}" defer></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> -->
+    <title>Inventarios</title>
+</head>
+<body>
+    <nav>
+        <span class="hover:underline bg-emerald-100"><a href="/abc">Clasificación ABC</a></span>
+        <span class="hover:underline bg-emerald-100"><a href="/descuentos">Costos unitarios</a></span>
+        <span class="hover:underline bg-emerald-100"><a href="/">Costos de pedidos</a></span>
+    </nav>
+    {% block content %}{% endblock %}
+</body>
+</html>
