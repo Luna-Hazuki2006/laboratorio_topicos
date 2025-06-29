@@ -92,9 +92,10 @@ class poder(BaseModel):
     hola : str
 
 @app.post('/pedidos')
-async def dar_pedidos(Todo : Annotated[str, Form()], noseeeee: Annotated[str, Form()], datos : Annotated[UploadFile, File()]): 
+async def dar_pedidos(request : Request, Todo : Annotated[str, Form()], noseeeee: Annotated[str, Form()], datos : Annotated[UploadFile, File()]): 
+    info = await request.form()
     aaaaa = await datos.read()
-    return {Todo, noseeeee, datos, aaaaa}
+    return {Todo, noseeeee, datos, aaaaa, info}
 
 @app.get('pedidos_res')
 def obtener_pedidos(request : Request): 
