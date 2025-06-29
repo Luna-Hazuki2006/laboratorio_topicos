@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<form action="/probabilistico" method="post">
+    <fieldset>
+        <legend>Cuándo y cuánto pedir con modelo probabilístico</legend>
+        <label for="pedido">Costo del pedido: </label>
+        <input type="number" name="pedido" id="pedido"><br><br>
+        <label for="almacenamiento">Costo del almacenamiento: </label>
+        <input type="number" name="almacenamiento" id="almacenamiento"><br><br>
+        <label for="acumulado">Costo del producto acumulado: </label>
+        <input type="number" name="acumulado" id="acumulado"><br><br>
+        <label for="promedio">Promedio: </label>
+        <input type="number" name="promedio" id="promedio"><br><br>
+        <label for="laborales">Días laborales: </label>
+        <input type="number" name="laborales" id="laborales"><br><br>
+        <label for="desviacion">Desviación: </label>
+        <input type="number" name="desviacion" id="desviacion"><br><br>
+        <label for="perdida">Costo de la perdida</label>
+        <input type="number" name="perdida" id="perdida"><br><br>
+        <button type="submit">Obtener respuesta</button>
+    </fieldset>
+</form>
+{% block respuesta %}{% endblock %}
+{% endblock %}

@@ -9,8 +9,6 @@ import time
 import csv
 import os
 
-matplotlib.use('AGG')
-
 def abecedear(archivo : list[dict], nombres : list[str]): 
     for cada in archivo: 
         cada[nombres[1]] = float(cada[nombres[1]])
@@ -31,12 +29,13 @@ def abecedear(archivo : list[dict], nombres : list[str]):
     pprint(archivo)
     datos = DataFrame(archivo)
     print(datos)
+    matplotlib.use('AGG')
     sns.set_theme()
     listas = Counter(datos['CLASIFICACION'])
     encontrados = datos['CLASIFICACION'].value_counts()
     pprint(listas)
     pprint(encontrados)
-    sns.barplot(listas)
+    sns.barplot(listas, palette=sns.color_palette("colorblind"))
     plt.title('Clasificación ABC')
     titulo = f'ABC_{time.time_ns() * 1000}'
     plt.savefig(titulo)

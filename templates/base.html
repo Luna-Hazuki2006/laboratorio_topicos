@@ -11,8 +11,16 @@
 <body>
     <nav>
         <span class="hover:underline bg-emerald-100"><a href="/abc">Clasificación ABC</a></span>
-        <span class="hover:underline bg-emerald-100"><a href="/descuentos">Costos unitarios</a></span>
-        <span class="hover:underline bg-emerald-100"><a href="/">Costos de pedidos</a></span>
+        <!-- <span class="hover:underline bg-emerald-100">¿Cuándo y cuánto ordenar?</span> -->
+        <details>
+            <summary><span class="hover:underline bg-emerald-100">¿Cuándo y cuánto ordenar?</span></summary>
+            <div>
+                <span class="hover:underline bg-emerald-100"><a href="/lote">Lote económico</a></span>
+                <span class="hover:underline bg-emerald-100"><a href="/descuento">Descuento</a></span>
+                <span class="hover:underline bg-emerald-100"><a href="/probabilidades">Probabilístico</a></span>
+            </div>
+        </details>
+        <span class="hover:underline bg-emerald-100"><a href="/pedidos">Costos de pedidos</a></span>
     </nav>
     {% block content %}{% endblock %}
 </body>

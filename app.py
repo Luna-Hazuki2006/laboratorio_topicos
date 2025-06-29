@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Form, status, HTTPException, File
+from fastapi import FastAPI, Form, status, HTTPException, File, UploadFile
 from fastapi.requests import Request
 from fastapi.responses import Response, RedirectResponse
 from fastapi.templating import Jinja2Templates
@@ -8,17 +8,12 @@ from pydantic import BaseModel
 from pprint import pprint
 import time
 from metodos.abc import abecedear_separado, abecedear_unido
+from metodos.probabilistico import probabilicear
+from modelos import datos_form_abc, dato_form_probabilistico
 
 app = FastAPI()
 app.mount('/static', StaticFiles(directory='./static'), name='static')
 templates = Jinja2Templates(directory='./templates')
-
-class datos_form_abc(BaseModel): 
-    visiones: str
-    archivo: str
-    nombres: str
-    costos: str
-    demandas: str
 
 @app.get('/')
 def iniciar(request : Request): 
@@ -49,7 +44,6 @@ def obtener_abc(request: Request, visiones : datos_form_abc, response : Response
             )
     elif visiones.visiones == 'segundo': 
         print(visiones.visiones)
-        print('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
         nombres = visiones.nombres.split('\n')
         demandas = visiones.demandas.split('\n')
         costos = visiones.costos.split('\n')
@@ -73,3 +67,46 @@ def obtener_abc(request: Request, visiones : datos_form_abc, response : Response
 @app.get('/abc_res')
 def dar_abc(request : Request): 
     return templates.TemplateResponse(request, 'respuesta_clas.html')
+
+@app.get('/descuento')
+def mostrar_descuentos(request : Request): 
+    return templates.TemplateResponse(request, 'descuento.html')
+
+@app.post('/descuento')
+async def obtener_descuentos(datos : Request):
+    print(datos.client.host)
+    todo = await datos.form()
+    pprint(todo.multi_items())
+    print(todo)
+    return todo
+
+@app.get('/descuento_res')
+def dar_descuentos(request : Request): 
+    return templates.TemplateResponse(request, 'respuesta_descuentos.html')
+
+@app.get('/pedidos')
+def mostrar_pedidos(request : Request): 
+    return templates.TemplateResponse(request, 'pedidos.html')
+
+class poder(BaseModel): 
+    hola : str
+
+@app.post('/pedidos')
+def dar_pedidos(Todo : Annotated[str, Form()], datos : Annotated[UploadFile, File()]): 
+    return {Todo, datos}
+
+@app.get('pedidos_res')
+def obtener_pedidos(request : Request): 
+    return templates.TemplateResponse(request, 'respuesta_pedidos.html')
+
+@app.get('/probabilidades')
+def mostrar_probabilistico(request : Request): 
+    return templates.TemplateResponse(request, 'probabilistico.html')
+
+@app.post('/probabilidades')
+def dar_probabilisticos(request : Request, datos : dato_form_probabilistico, response : Response): 
+    return probabilicear(datos)
+
+@app.get('/lote')
+def mostrar_lote(request : Request): 
+    return templates.TemplateResponse(request, 'economico.html')

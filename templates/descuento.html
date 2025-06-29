@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="hover:underline">Bienvenido a la sección de descuentos</h1>
+<p>En esta aplicación podrás conocer muchas cosas sobre lo que tienes que pagar</p>
+<form action="/descuento" method="post">
+    <fieldset>
+        <label for="producto">Costo por producto: </label>
+        <input type="number" name="producto" id="producto"><br><br>
+        <label for="demanda">Demanda mensual: </label>
+        <input type="number" name="demanda" id="demanda"><br><br>
+        <legend>Cuándo y cuánto comprar con modelo de descuento</legend>
+        <div>
+            <input type="radio" name="visiones" id="primero" value="primero" checked>
+            <label for="primero">Usando archivo .csv</label>
+            <input type="radio" name="visiones" id="segundo" value="segundo">
+            <label for="segundo">Escribiendo manualemente</label>
+        </div>
+        <div id="completo">
+            <label for="archivo">Archivo csv de los datos: </label> <br>
+            <small>
+                Tiene que estar dividido por: <br>
+                rangos de unidades con el menor al principio y el mayor al final, por ejemplo 1-10 <br>
+                los descuentos (pueden o no contener el símbolo "%") <br>
+                Los costos de almacenamiento <br>
+            </small> <br>
+            <input type="file" name="archivo" id="archivo" accept="text/csv">
+        </div>
+        <div id="dividido">
+            <table id="info">
+                <tr id="titulo">
+                    <th>Unidades</th>
+                    <th>Descuentos</th>
+                    <th>Costo de almacenamiento</th>
+                    <th>Costo de preparación</th>
+                    <th></th>
+                </tr>
+            </table>
+            <button onclick="agregar();" type="button">➕</button>
+        </div>
+        <button type="submit">Obtener respuesta</button>
+    </fieldset>
+</form>
+<template>
+    <tr>
+        <td><input type="number" name="" id=""></td>
+        <td><input type="number" name="" id=""></td>
+        <td><input type="number" name="" id=""></td>
+        <td><input type="number" name="" id=""></td>
+        <td><button type="button">❌</button></td>
+    </tr>
+</template>
+{% block respuesta %}{% endblock %}
+{% endblock %}

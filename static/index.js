@@ -104,6 +104,31 @@ function llenar_abc() {
     imagen.alt = 'Tabla de ABC'
 }
 
+function agregar() {
+    let datos = ['unidades', 'descuentos', 'almacenamiento', 'preparacion']
+    let temp = document.getElementsByTagName("template")[0];
+    let tabla = document.getElementById('info')
+    let lista = tabla.getElementsByTagName('tr')
+    let clon = temp.content.cloneNode(true);
+    lista.item(lista.length - 1).parentNode.appendChild(clon)
+    let numero = 1
+    if (lista.length > 2) {
+        let ultimo = lista.item(lista.length - 2).children.item(0).children.item(0).id
+        console.log(ultimo);
+        numero = Number(ultimo.substring(datos[0].length), ultimo.length - 1) + 1
+    } else numero = 1
+    let i = 0
+    for (const dato of lista.item(lista.length - 1).getElementsByTagName('input')) {
+        dato.id = datos[i] + numero
+        dato.name = datos[i] + numero
+        i++
+    }
+    let boton = lista.item(lista.length - 1).getElementsByTagName('button')[0];
+    boton.addEventListener('click', (evento) => {
+        boton.parentElement.parentElement.remove()
+    })
+}
+
 function main() {
     // console.log(JSON.parse(localStorage.getItem('abc')))
     // localStorage.removeItem('abc')
