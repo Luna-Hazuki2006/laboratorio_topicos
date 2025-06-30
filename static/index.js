@@ -8,6 +8,15 @@ function dar_radios() {
         radio.addEventListener('click', (ev) => {
             completo.classList.toggle('oculto')
             dividido.classList.toggle('oculto')
+            if (location.pathname.includes('descuento')) {
+                for (const cada of [completo, dividido]) {
+                    let verdad = !cada.classList.contains('oculto')
+                    let todos = cada.getElementsByTagName('input')
+                    // radios.item(0).checked = verdad
+                    // radios.item(1).checked = !verdad
+                    for (const uno of todos) uno.required = verdad
+                }
+            }
         })
     }
 }
@@ -129,6 +138,21 @@ function agregar() {
     })
 }
 
+function intento_obtencion() {
+    let oscuro = document.getElementById('oscuro')
+    let imagen = document.getElementById('imagen')
+    if (!oscuro || !imagen) return
+    let lista = (localStorage.getItem('abc')) ? JSON.parse(localStorage.getItem('abc')) : []
+    console.log(oscuro.innerText);
+    let info = JSON.parse(oscuro.innerText)
+    console.log(info);
+    lista.push({
+        'info': info, 
+        'imagen': imagen.src
+    })
+    localStorage.setItem('descuento', JSON.stringify(lista))
+}
+
 function main() {
     // console.log(JSON.parse(localStorage.getItem('abc')))
     // localStorage.removeItem('abc')
@@ -138,6 +162,9 @@ function main() {
         if (location.pathname.includes('abc_res')) {
             llenar_abc()
         }
+    } else if (location.pathname.includes('descuento')) {
+        dar_radios()
+        intento_obtencion()
     }
 }
 

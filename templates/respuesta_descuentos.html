@@ -1,3 +1,21 @@
 {% extends 'descuento.html' %}
 {% block respuesta %}
+<div id="tabla">
+    <table>
+        <tr>
+            <th>Cantidad</th>
+            <th>Costo total</th>
+        </tr>
+        {% for esto in resultado['info'] %}
+        <tr>
+            <td>{{ esto['unidad'] }}</td>
+            <td>{{ esto['total'] | round(4) }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+<div>
+    <p style="display: none;" id="oscuro">{{ resultado['info'] | tojson }}</p>
+    <img id="imagen" src="{{ resultado['imagen'] }}" alt="Diagrama de modelo de descuentos">
+</div>
 {% endblock %}

@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Form, status, HTTPException, File, UploadFile
 from fastapi.requests import Request
-from fastapi.responses import Response, RedirectResponse
+from fastapi.responses import Response, RedirectResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from typing import Annotated
@@ -9,11 +9,19 @@ from pprint import pprint
 import time
 from metodos.abc import abecedear_separado, abecedear_unido
 from metodos.probabilistico import probabilicear
-from modelos import datos_form_abc, dato_form_probabilistico
+from metodos.descuento import descontar_separado, descontar_unido
+from modelos import datos_form_abc, dato_form_probabilistico, DESCUENTOS
 
 app = FastAPI()
 app.mount('/static', StaticFiles(directory='./static'), name='static')
 templates = Jinja2Templates(directory='./templates')
+
+@app.exception_handler(HTTPException)
+async def http_exception_handler(request : Request, excepcion : HTTPException): 
+    print(request.url)
+    return templates.TemplateResponse(request, 'error.html', context={
+        'info': excepcion.detail, 'original': request.url
+    })
 
 @app.get('/')
 def iniciar(request : Request): 
@@ -73,12 +81,32 @@ def mostrar_descuentos(request : Request):
     return templates.TemplateResponse(request, 'descuento.html')
 
 @app.post('/descuento')
-async def obtener_descuentos(datos : Request):
+async def obtener_descuentos(datos : Request, archivo : Annotated[UploadFile, File()]):
     print(datos.client.host)
+    resultados = []
     todo = await datos.form()
-    pprint(todo.multi_items())
-    print(todo)
-    return todo
+    if todo['visiones'] == 'primero': 
+        info = await archivo.read()
+        pprint(info)
+        titulo = f'descuento_{time.time_ns() * 1000}.csv'
+        with open(titulo, 'wb') as nuevo:
+            nuevo.write(info)
+        await archivo.close()
+        resultados = descontar_unido(titulo, dict(todo.items()))
+    elif todo['visiones'] == 'segundo': 
+        partes = []
+        lista = todo.keys()
+        for cada in DESCUENTOS: 
+            partes.append(list(filter(lambda x: cada in x, lista)))
+        if partes[0] == []: 
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail='Tiene que tener al menos una fila de información'
+            )
+        resultados = descontar_separado(DESCUENTOS, partes, dict(todo.items()))
+    return templates.TemplateResponse(datos, 'respuesta_descuentos.html', context={
+        'resultado': resultados
+    })
 
 @app.get('/descuento_res')
 def dar_descuentos(request : Request): 
@@ -95,6 +123,8 @@ class poder(BaseModel):
 async def dar_pedidos(request : Request, Todo : Annotated[str, Form()], noseeeee: Annotated[str, Form()], datos : Annotated[UploadFile, File()]): 
     info = await request.form()
     aaaaa = await datos.read()
+    async with request.form() as respuestassss:
+        pprint(respuestassss)
     return {'Todo': Todo, 'nose': noseeeee, 'datos': datos, 'a': aaaaa, 'info': info.multi_items()}
 
 @app.get('pedidos_res')

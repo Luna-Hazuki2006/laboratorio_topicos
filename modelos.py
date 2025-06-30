@@ -10,6 +10,8 @@ class datos_form_abc(BaseModel):
 class datos_form_descuentos(BaseModel): 
     pass
 
+DESCUENTOS = ['unidades', 'descuentos', 'almacenamiento', 'preparacion']
+
 class dato_form_lote(BaseModel):
     pass
 

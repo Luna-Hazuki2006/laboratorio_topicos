@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<div>
+    <h2>Oh no... A sucedido un pequeño error</h2>
+    <p>
+        {{ info }}
+    </p>
+    <a href="{{ original }}"><button type="button">¡Vuelve a intentarlo!</button></a>
+</div>
+{% endblock %}

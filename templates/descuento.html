@@ -2,15 +2,15 @@
 {% block content %}
 <h1 class="hover:underline">Bienvenido a la sección de descuentos</h1>
 <p>En esta aplicación podrás conocer muchas cosas sobre lo que tienes que pagar</p>
-<form action="/descuento" method="post">
+<form action="/descuento" method="post" enctype="multipart/form-data">
     <fieldset>
         <label for="producto">Costo por producto: </label>
-        <input type="number" name="producto" id="producto"><br><br>
+        <input type="number" name="producto" id="producto" required><br><br>
         <label for="demanda">Demanda mensual: </label>
-        <input type="number" name="demanda" id="demanda"><br><br>
+        <input type="number" name="demanda" id="demanda" required><br><br>
         <legend>Cuándo y cuánto comprar con modelo de descuento</legend>
         <div>
-            <input type="radio" name="visiones" id="primero" value="primero" checked>
+            <input type="radio" name="visiones" id="primero" value="primero">
             <label for="primero">Usando archivo .csv</label>
             <input type="radio" name="visiones" id="segundo" value="segundo">
             <label for="segundo">Escribiendo manualemente</label>
@@ -21,9 +21,10 @@
                 Tiene que estar dividido por: <br>
                 rangos de unidades con el menor al principio y el mayor al final, por ejemplo 1-10 <br>
                 los descuentos (pueden o no contener el símbolo "%") <br>
-                Los costos de almacenamiento <br>
+                Los costos de almacenamiento (pueden o no contener el símbolo "$") <br>
+                Los costos de preparación del pedido (pueden o no contener el símbolo "$") <br>
             </small> <br>
-            <input type="file" name="archivo" id="archivo" accept="text/csv">
+            <input type="file" name="archivo" id="archivo" accept="text/csv" required>
         </div>
         <div id="dividido">
             <table id="info">
@@ -37,15 +38,17 @@
             </table>
             <button onclick="agregar();" type="button">➕</button>
         </div>
+        <br>
         <button type="submit">Obtener respuesta</button>
     </fieldset>
 </form>
 <template>
     <tr>
-        <td><input type="number" name="" id=""></td>
-        <td><input type="number" name="" id=""></td>
-        <td><input type="number" name="" id=""></td>
-        <td><input type="number" name="" id=""></td>
+        <td><input type="text" name="" id="" pattern="^\d+\s*-\s*\d+$" 
+            title="Los números deben ser rangos, por ejemplo: 23 - 40" required></td>
+        <td><input type="number" name="" id="" min="0" step="0.01" required></td>
+        <td><input type="number" name="" id="" min="0" step="0.01" required></td>
+        <td><input type="number" name="" id="" min="0" step="0.01" required></td>
         <td><button type="button">❌</button></td>
     </tr>
 </template>
