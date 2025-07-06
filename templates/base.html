@@ -4,23 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', path='style.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', path='icono.ico') }}" type="image/x-icon">
     <script src="{{ url_for('static', path='index.js') }}" defer></script>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <title>Inventarios</title>
 </head>
-<body>
-    <nav>
+<body class="m-5">
+    <nav class="rounded-md p-2">
+        <span class="hover:underline bg-emerald-100"><a href="/">Inicio</a></span>
         <span class="hover:underline bg-emerald-100"><a href="/abc">Clasificación ABC</a></span>
         <!-- <span class="hover:underline bg-emerald-100">¿Cuándo y cuánto ordenar?</span> -->
         <details>
-            <summary><span class="hover:underline bg-emerald-100">¿Cuándo y cuánto ordenar?</span></summary>
+            <summary><span class="hover:underline bg-emerald-100 hover:cursor-pointer">¿Cuándo y cuánto ordenar?</span></summary>
             <div>
                 <span class="hover:underline bg-emerald-100"><a href="/lote">Lote económico</a></span>
                 <span class="hover:underline bg-emerald-100"><a href="/descuento">Descuento</a></span>
                 <span class="hover:underline bg-emerald-100"><a href="/probabilidades">Probabilístico</a></span>
             </div>
         </details>
-        <span class="hover:underline bg-emerald-100"><a href="/pedidos">Costos de pedidos</a></span>
+        <span class="hover:underline bg-emerald-100"><a href="/colas">Modelo de colas</a></span>
     </nav>
     {% block content %}{% endblock %}
 </body>

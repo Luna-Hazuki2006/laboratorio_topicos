@@ -1,0 +1,24 @@
+{% extends 'colas.html' %}
+{% block respuesta %}
+<div>
+    <p style="display: none;">{{ info | tojson() }}</p>
+    <p style="display: none;">{{ anterior | tojson() }}</p>
+    <p style="display: none;">{{ probabilidad | tojson() }}</p>
+    <p>Clientes en la cola: {{ info['Lq'] | round(4) }}</p>
+    <p>Clientes en el sistema: {{ info['L'] | round(4) }}</p>
+    <p>Tiempo promedio en la cola: {{ info['Wq'] | round(4) }}</p>
+    <p>Tiempo promedio en el sistema: {{ info['W'] | round(4) }}</p>
+    <p>
+        Probabilidad de que hayan {{ anterior['clientes'] | round(4) }} 
+        clientes en el sistema: {{ (probabilidad['Pn'] * 100) | round(4) }}%
+    </p>
+    <p>
+        Probabilidad de espera mayor a {{ anterior['espera'] | round(4) }} 
+        horas: {{ (probabilidad['PEspera'] * 100) | round(4) }}%
+    </p>
+    <p>
+        Probabilidad de que hayan más de {{ anterior['mayores'] | round(4) }}: 
+        {{ (probabilidad['Pplus'] * 100) | round(4) }}%
+    </p>
+</div>
+{% endblock %}

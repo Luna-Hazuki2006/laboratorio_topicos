@@ -1,9 +1,31 @@
 {% extends 'base.html' %}
 {% block content %}
 <form action="/lote" method="post">
-    <fieldset>
+    <fieldset class="border rounded-md p-3">
         <legend>Cuándo y cuánto comprar con lote económico</legend>
-        <label for=""></label>
+        <label for="unitario">Valor unitario del producto: </label>
+        <input class="border rounded-md" type="number" name="unitario" id="unitario" required><br><br>
+        <label for="demanda">Demanda: </label>
+        <input class="border rounded-md" type="number" name="demanda" id="demanda" required><br><br>
+        <label for="pedido">Costo por pedido: </label>
+        <input class="border rounded-md" type="number" name="pedido" id="pedido" required><br><br>
+        <label for="almacenamiento">Costo del almacenamiento: </label>
+        <input class="border rounded-md" type="number" name="almacenamiento" id="almacenamiento" required><br><br>
+        <label for="entrega">Tiempo de entrega: </label>
+        <input class="border rounded-md" type="number" name="entrega" id="entrega" required><br><br>
+        <div>
+            <input class="hover:cursor-pointer" type="radio" name="medida" id="dias" checked>
+            <label for="dias">Días</label>
+            <input class="hover:cursor-pointer" type="radio" name="medida" id="semanas">
+            <label for="semanas">Semanas</label>
+            <input class="hover:cursor-pointer" type="radio" name="medida" id="meses">
+            <label for="meses">Meses</label>
+            <input class="hover:cursor-pointer" type="radio" name="medida" id="anual">
+            <label for="anual">Años</label>
+        </div><br>
+        <label for="perdida">Costo por pérdida</label>
+        <input class="border rounded-md" type="number" name="perdida" id="perdida" required><br><br>
+        <button class="border rounded-md bg-teal-500 p-1" type="submit">Obtener respuestas</button>
     </fieldset>
 </form>
 {% block respuesta %}{% endblock %}

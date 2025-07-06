@@ -2,7 +2,7 @@ from fastapi.exceptions import HTTPException
 from fastapi import UploadFile, status
 from pandas import DataFrame
 from pprint import pprint
-import matplotlib.pylab as plt
+import matplotlib.pyplot as plt
 import seaborn as sns
 import matplotlib
 import base64

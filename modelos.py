@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from enum import Enum
 
 class datos_form_abc(BaseModel): 
     visiones: str
@@ -10,10 +11,29 @@ class datos_form_abc(BaseModel):
 class datos_form_descuentos(BaseModel): 
     pass
 
+class Medidas(Enum): 
+    dias = 'dias'
+    semanas = 'semanas'
+    meses = 'meses'
+    anual = 'anual'
+
+class datos_form_economico(BaseModel): 
+    unitario : float
+    demanda : float
+    pedido : float
+    almacenamiento : float
+    entrega : float
+    medida : Medidas
+    perdida : float
+
 DESCUENTOS = ['unidades', 'descuentos', 'almacenamiento', 'preparacion']
 
-class dato_form_lote(BaseModel):
-    pass
+class dato_form_cola(BaseModel): 
+    llegada : float
+    servicio : float
+    clientes : float
+    espera : float
+    mayores : float
 
 class dato_form_probabilistico(BaseModel): 
     pedido: float

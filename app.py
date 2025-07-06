@@ -10,7 +10,8 @@ import time
 from metodos.abc import abecedear_separado, abecedear_unido
 from metodos.probabilistico import probabilicear
 from metodos.descuento import descontar_separado, descontar_unido
-from modelos import datos_form_abc, dato_form_probabilistico, DESCUENTOS
+from metodos.colas import colear, colear_probabilidad
+from modelos import datos_form_abc, dato_form_probabilistico, DESCUENTOS, dato_form_cola
 
 app = FastAPI()
 app.mount('/static', StaticFiles(directory='./static'), name='static')
@@ -116,9 +117,6 @@ def dar_descuentos(request : Request):
 def mostrar_pedidos(request : Request): 
     return templates.TemplateResponse(request, 'pedidos.html')
 
-class poder(BaseModel): 
-    hola : str
-
 @app.post('/pedidos')
 async def dar_pedidos(request : Request, Todo : Annotated[str, Form()], noseeeee: Annotated[str, Form()], datos : Annotated[UploadFile, File()]): 
     info = await request.form()
@@ -127,7 +125,7 @@ async def dar_pedidos(request : Request, Todo : Annotated[str, Form()], noseeeee
         pprint(respuestassss)
     return {'Todo': Todo, 'nose': noseeeee, 'datos': datos, 'a': aaaaa, 'info': info.multi_items()}
 
-@app.get('pedidos_res')
+@app.get('/pedidos_res')
 def obtener_pedidos(request : Request): 
     return templates.TemplateResponse(request, 'respuesta_pedidos.html')
 
@@ -142,3 +140,42 @@ def dar_probabilisticos(request : Request, datos : dato_form_probabilistico, res
 @app.get('/lote')
 def mostrar_lote(request : Request): 
     return templates.TemplateResponse(request, 'economico.html')
+
+@app.post('/lote')
+def obtener_lote(request : Request): 
+
+    return templates.TemplateResponse(request, 'respuesta_economico.html')
+
+@app.get('/colas')
+def mostrar_cola(request : Request): 
+    return templates.TemplateResponse(request, 'colas.html')
+
+@app.post('/colas')
+def obtener_cola(request : Request, datos : Annotated[dato_form_cola, Form()]): 
+    if datos.llegada <= 0:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, 
+            detail='La tasa de llegada no puede ser igual o menor a 0'
+        ) 
+    if datos.servicio <= 0:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, 
+            detail='La tasa de servicio no puede ser igual o menor a 0'
+        ) 
+    if datos.llegada >= datos.servicio: 
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, 
+            detail='La tasa de llegada no puede ser mayor a la tasa de servicios'
+        )
+    info = colear(datos.llegada, datos.servicio)
+    probabilidad = colear_probabilidad(
+        datos.llegada, datos.servicio, 
+        datos.clientes, datos.espera, datos.mayores
+    )
+    todo = {
+        'info': info, 
+        'probabilidad': probabilidad, 
+        'anterior': datos.model_dump()
+    }
+    pprint(todo)
+    return templates.TemplateResponse(request, 'respuesta_colas.html', context=todo)

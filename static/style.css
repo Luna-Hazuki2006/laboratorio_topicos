@@ -27,3 +27,23 @@ tr:hover {
 button:hover {
     cursor: pointer;
 }
+
+nav {
+    border: 1px solid black;
+    background-color: honeydew;
+    
+}
+
+nav span:hover {
+    border: 1px solid black;
+}
+
+.cajita {
+    border-radius: 10;
+    background-color: darkgray;
+    border: 1px solid black;
+}
+
+.cajita:hover {
+    background-color: black;
+}
