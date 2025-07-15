@@ -1,19 +1,19 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1 class="text-5xl">Bienvenido a la sección de modelo de colas</h1>
+<h1 class="text-5xl">Bienvenido a la sección de Modelo de Colas</h1>
 <form action="/colas" method="post">
-    <fieldset class="border rounded-md p-3">
+    <fieldset class="border rounded-md p-3 bg-emerald-100">
         <legend>Obtener datos del modelo económico</legend>
         <label for="llegada">Tasa de llegada: </label>
-        <input class="border rounded-md" type="number" name="llegada" id="llegada" required><br><br>
+        <input class="border rounded-md ps-1" type="number" name="llegada" id="llegada" required><br><br>
         <label for="servicio">Tasa de servicio: </label>
-        <input class="border rounded-md" type="number" name="servicio" id="servicio" required><br><br>
+        <input class="border rounded-md ps-1" type="number" name="servicio" id="servicio" required><br><br>
         <label for="clientes">Cantidad de clientes: </label>
-        <input class="border rounded-md" type="number" name="clientes" id="clientes" required><br><br>
+        <input class="border rounded-md ps-1" type="number" name="clientes" id="clientes" required><br><br>
         <label for="espera">Tiempo de espera: </label>
-        <input class="border rounded-md" type="number" name="espera" id="espera" required><br><br>
+        <input class="border rounded-md ps-1" type="number" name="espera" id="espera" required><br><br>
         <label for="mayores">Clientes mayores a: </label>
-        <input class="border rounded-md" type="number" name="mayores" id="mayores" step="1" required><br><br>
+        <input class="border rounded-md ps-1" type="number" name="mayores" id="mayores" step="1" required><br><br>
         <button class="border rounded-md bg-teal-500 p-1" type="submit">Obtener respuestas</button>
     </fieldset>
 </form>

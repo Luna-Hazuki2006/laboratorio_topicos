@@ -6,8 +6,15 @@ function dar_radios() {
     dividido.classList.add('oculto')
     for (const radio of radios) {
         radio.addEventListener('click', (ev) => {
-            completo.classList.toggle('oculto')
-            dividido.classList.toggle('oculto')
+            if (radios.item(0).checked == true) {
+                completo.classList.remove('oculto')
+                dividido.classList.add('oculto')
+            } else if (radios.item(1).checked == true) {
+                completo.classList.add('oculto')
+                dividido.classList.remove('oculto')
+            }
+            // completo.classList.toggle('oculto')
+            // dividido.classList.toggle('oculto')
             if (location.pathname.includes('descuento')) {
                 for (const cada of [completo, dividido]) {
                     let verdad = !cada.classList.contains('oculto')
@@ -142,7 +149,7 @@ function intento_obtencion() {
     let oscuro = document.getElementById('oscuro')
     let imagen = document.getElementById('imagen')
     if (!oscuro || !imagen) return
-    let lista = (localStorage.getItem('abc')) ? JSON.parse(localStorage.getItem('abc')) : []
+    let lista = (localStorage.getItem('descuento')) ? JSON.parse(localStorage.getItem('descuento')) : []
     console.log(oscuro.innerText);
     let info = JSON.parse(oscuro.innerText)
     console.log(info);
@@ -151,6 +158,21 @@ function intento_obtencion() {
         'imagen': imagen.src
     })
     localStorage.setItem('descuento', JSON.stringify(lista))
+}
+
+function recoger() {
+    let info = document.getElementById('info')
+    let anterior = document.getElementById('anterior')
+    let probabilidad = document.getElementById('probabilidad')
+    if (info && anterior && probabilidad) {
+        let lista = (localStorage.getItem('colas')) ? JSON.parse(localStorage.getItem('colas')) : []
+        lista.push({
+            'info': JSON.parse(info.innerText), 
+            'anterior': JSON.parse(anterior.innerText), 
+            'probabilidad': JSON.parse(probabilidad.innerText)
+        })
+        localStorage.setItem('colas', JSON.stringify(lista))
+    }
 }
 
 function main() {
@@ -165,6 +187,10 @@ function main() {
     } else if (location.pathname.includes('descuento')) {
         dar_radios()
         intento_obtencion()
+    } else if (location.pathname.includes('colas')) {
+        recoger()
+    } else if (location.pathname.includes('probabilidad')) {
+        
     }
 }
 

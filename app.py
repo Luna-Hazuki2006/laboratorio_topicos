@@ -7,11 +7,18 @@ from typing import Annotated
 from pydantic import BaseModel
 from pprint import pprint
 import time
+import csv
 from metodos.abc import abecedear_separado, abecedear_unido
 from metodos.probabilistico import probabilicear
+from metodos.lote import lotear
 from metodos.descuento import descontar_separado, descontar_unido
 from metodos.colas import colear, colear_probabilidad
-from modelos import datos_form_abc, dato_form_probabilistico, DESCUENTOS, dato_form_cola
+from modelos import (
+    datos_form_abc, 
+    dato_form_probabilistico, 
+    DESCUENTOS, dato_form_cola, 
+    datos_form_economico
+)
 
 app = FastAPI()
 app.mount('/static', StaticFiles(directory='./static'), name='static')
@@ -26,7 +33,42 @@ async def http_exception_handler(request : Request, excepcion : HTTPException):
 
 @app.get('/')
 def iniciar(request : Request): 
-    return templates.TemplateResponse(request, 'inicio.html')
+    info_abc = []
+    nombres_abc = []
+    with open('productos.csv', 'r') as archivo: 
+        contenido_abc = csv.DictReader(archivo)
+        info_abc = [dato for dato in contenido_abc]
+        nombres_abc = contenido_abc.fieldnames
+    abc = abecedear_unido('productos.csv', True)
+    info_descuento = []
+    nombres_descuento = []
+    with open('rangos.csv', 'r') as archivo: 
+        contenido_descuento = csv.DictReader(archivo)
+        info_descuento = [dato for dato in contenido_descuento]
+        nombres_descuento = contenido_descuento.fieldnames
+    descuento = descontar_unido('rangos.csv', {'demanda': 40, 'producto': 55}, True)
+    info_colas = colear(3, 4)
+    probabilidad_colas = colear_probabilidad(3, 4, 5, 1, 3)
+    datos_probabilidades = dato_form_probabilistico(pedido=100, almacenamiento=0.04, acumulado=200, 
+                                                    promedio=20, laborales=7, desviacion=20, perdida=0)
+    probabilidades = probabilicear(datos_probabilidades)
+    colas = {
+        'info': info_colas, 
+        'probabilidad': probabilidad_colas, 
+        'anterior': {
+            'llegada': 3, 
+            'servicio': 4, 
+            'clientes': 5, 
+            'espera': 1, 
+            'mayores': 3
+        }
+    }
+    return templates.TemplateResponse(request, 'inicio.html', {
+        'info_abc': info_abc, 'nombres_abc': nombres_abc, 
+        'abc': abc, 'info_descuento': info_descuento, 
+        'nombres_descuento': nombres_descuento, 'descuento': descuento, 
+        'colas': colas, 'probabilidades': probabilidades
+    })
 
 @app.get('/abc')
 def mostrar_abc(request : Request): 
@@ -35,6 +77,7 @@ def mostrar_abc(request : Request):
 @app.post('/abc')
 def obtener_abc(request: Request, visiones : datos_form_abc, response : Response):
     print(visiones.visiones)
+    resultados = ''
     if visiones.visiones == 'primero': 
         titulo = f'abc_{time.time_ns() * 1000}.csv'
         # print(visiones.archivo)
@@ -44,7 +87,7 @@ def obtener_abc(request: Request, visiones : datos_form_abc, response : Response
             # return templates.TemplateResponse(request, 'respuesta_clas.html',context={
             #     'datos': abecedear_unido(titulo) 
             # })
-            return abecedear_unido(titulo)
+            resultados = abecedear_unido(titulo)
         except Exception as e:
             print(e)
             raise HTTPException(
@@ -70,8 +113,8 @@ def obtener_abc(request: Request, visiones : datos_form_abc, response : Response
                 detail='La cantidad de productos tiene que coincidir con sus datos'
             )
         print(nombres)
-        return abecedear_separado(nombres, costos, demandas)
-    return 
+        resultados = abecedear_separado(nombres, costos, demandas)
+    return resultados
 
 @app.get('/abc_res')
 def dar_abc(request : Request): 
@@ -105,6 +148,7 @@ async def obtener_descuentos(datos : Request, archivo : Annotated[UploadFile, Fi
                 detail='Tiene que tener al menos una fila de información'
             )
         resultados = descontar_separado(DESCUENTOS, partes, dict(todo.items()))
+    
     return templates.TemplateResponse(datos, 'respuesta_descuentos.html', context={
         'resultado': resultados
     })
@@ -134,17 +178,22 @@ def mostrar_probabilistico(request : Request):
     return templates.TemplateResponse(request, 'probabilistico.html')
 
 @app.post('/probabilidades')
-def dar_probabilisticos(request : Request, datos : dato_form_probabilistico, response : Response): 
-    return probabilicear(datos)
+def dar_probabilisticos(request : Request, datos : Annotated[dato_form_probabilistico, Form()], response : Response): 
+    probabilidades = probabilicear(datos)
+    return templates.TemplateResponse(request, 'respuesta_probabilistico.html', {'datos': probabilidades})
 
 @app.get('/lote')
 def mostrar_lote(request : Request): 
     return templates.TemplateResponse(request, 'economico.html')
 
 @app.post('/lote')
-def obtener_lote(request : Request): 
-
-    return templates.TemplateResponse(request, 'respuesta_economico.html')
+def obtener_lote(request : Request, response : Request, datos : Annotated[datos_form_economico, Form()]): 
+    pprint(datos)
+    pprint(request)
+    respuetas = lotear(datos.unitario, datos.demanda, datos.pedido, datos.almacenamiento, datos.entrega)
+    return templates.TemplateResponse(request, 'respuesta_economico.html', {
+        'cuerpo': respuetas
+    })
 
 @app.get('/colas')
 def mostrar_cola(request : Request): 

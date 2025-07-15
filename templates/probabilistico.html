@@ -1,23 +1,24 @@
 {% extends 'base.html' %}
 {% block content %}
-<form action="/probabilistico" method="post">
-    <fieldset>
+<h3 class="text-5xl">Bienvenido a la sección de Modelo Probabilístico</h3>
+<form action="/probabilidades" method="post">
+    <fieldset class="border rounded-md bg-emerald-100 p-3">
         <legend>Cuándo y cuánto pedir con modelo probabilístico</legend>
         <label for="pedido">Costo del pedido: </label>
-        <input type="number" name="pedido" id="pedido"><br><br>
+        <input class="border rounded-md ps-1" type="number" name="pedido" id="pedido"><br><br>
         <label for="almacenamiento">Costo del almacenamiento: </label>
-        <input type="number" name="almacenamiento" id="almacenamiento"><br><br>
+        <input class="border rounded-md ps-1" type="text" name="almacenamiento" id="almacenamiento"><br><br>
         <label for="acumulado">Costo del producto acumulado: </label>
-        <input type="number" name="acumulado" id="acumulado"><br><br>
+        <input class="border rounded-md ps-1" type="number" name="acumulado" id="acumulado"><br><br>
         <label for="promedio">Promedio: </label>
-        <input type="number" name="promedio" id="promedio"><br><br>
+        <input class="border rounded-md ps-1" type="number" name="promedio" id="promedio"><br><br>
         <label for="laborales">Días laborales: </label>
-        <input type="number" name="laborales" id="laborales"><br><br>
+        <input class="border rounded-md ps-1" type="number" name="laborales" id="laborales"><br><br>
         <label for="desviacion">Desviación: </label>
-        <input type="number" name="desviacion" id="desviacion"><br><br>
+        <input class="border rounded-md ps-1" type="number" name="desviacion" id="desviacion"><br><br>
         <label for="perdida">Costo de la perdida</label>
-        <input type="number" name="perdida" id="perdida"><br><br>
-        <button type="submit">Obtener respuesta</button>
+        <input class="border rounded-md ps-1" type="number" name="perdida" id="perdida"><br><br>
+        <button class="border rounded-md p-1 bg-teal-500 hover:cursor-pointer" type="submit">Obtener respuesta</button>
     </fieldset>
 </form>
 {% block respuesta %}{% endblock %}

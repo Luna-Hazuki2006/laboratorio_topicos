@@ -6,31 +6,33 @@
     <fieldset class="border rounded-md p-3 bg-emerald-100">
         <legend>Búsqueda de la clasificación ABC</legend>
         <div>
-            <input type="radio" name="visiones" id="primero" value="primero" checked>
-            <label for="primero">Usando archivo .csv</label>
-            <input type="radio" name="visiones" id="segundo" value="segundo">
-            <label for="segundo">Escribiendo manualemente</label>
+            <input class="hover:cursor-pointer" type="radio" name="visiones" id="primero" value="primero" checked>
+            <label class="hover:cursor-pointer" for="primero">Usando archivo .csv</label>
+            <input class="hover:cursor-pointer" type="radio" name="visiones" id="segundo" value="segundo">
+            <label class="hover:cursor-pointer" for="segundo">Escribiendo manualemente</label>
         </div>
         <div id="completo">
             <label for="archivo">Archivo csv de los datos: </label> <br>
             <small>
                 Tiene que estar dividido por (nombre de los productos, sus demandas y sus costos unitarios)
             </small> <br>
-            <input class="hover:cursor-pointer" type="file" name="archivo" id="archivo" accept="text/csv">
+            <input 
+                class="hover:cursor-pointer hover:bg-teal-500 border rounded-md border-dashed p-1" 
+                type="file" name="archivo" id="archivo" accept="text/csv">
         </div>
         <div id="dividido">
             <label for="nombres">Lista de nombres de productos (opcional):</label> <br>
-            <textarea name="nombres" id="nombres" class="border rounded-md"
+            <textarea name="nombres" id="nombres" class="border rounded-md ps-1"
                 placeholder="Cada línea es un dato..."></textarea> <br>
             <label for="demandas">Lista de demandas: </label> <br>
-            <textarea name="demandas" id="demandas" class="border rounded-md"
+            <textarea name="demandas" id="demandas" class="border rounded-md ps-1"
                 placeholder="Cada línea es un dato..."></textarea> <br>
             <label for="costos">Lista de costos: </label> <br>
-            <textarea name="costos" id="costos" class="border rounded-md"
+            <textarea name="costos" id="costos" class="border rounded-md ps-1"
                 placeholder="Cada línea es un dato..."></textarea>
         </div>
         <br>
-        <button class="border rounded-md p-1 bg-teal-500 hover:cursor-pointer " type="submit">Obtener respuesta</button>
+        <button class="border rounded-md p-1 bg-teal-500 hover:cursor-pointer" type="submit">Obtener respuesta</button>
     </fieldset>
 </form>
 {% block respuesta %}{% endblock %}

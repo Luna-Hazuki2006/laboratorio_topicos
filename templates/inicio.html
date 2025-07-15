@@ -9,25 +9,151 @@
     <li>Obtener los cuántos y cuándos de compra de los productos</li>
     <li>Obtener los diagramas de los modelos de descuentos, lotes económicos y clasificación ABC</li>
 </ul>
-<h3>Ejemplos de empresas y organizaciones que hemos ayudado</h3>
+<h3 class="text-center text-5xl m-5">Ejemplos de empresas y organizaciones que hemos ayudado</h3>
+<details>
+    <summary class="text-orange-600 animate-bounce cursor-pointer">Gran compañía mensual</summary>
+    <p>
+        Una compañía (que decidió mantenerse anónima) requería clasificar los siguientes 
+        20 productos en clasificación A B C
+    </p>
+    <table>
+        <tr>
+            {% for nombre in nombres_abc %}
+            <th>{{ nombre }}</th>
+            {% endfor %}
+            {% for dato in info_abc %}
+            <tr>
+                {% for nombre in nombres_abc %}
+                <td>{{ dato[nombre] }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tr>
+    </table>
+    <p>
+        Los resultados fueron los siguientes:
+    </p>
+    <table>
+        <tr>
+            {% for esto, nada in abc['archivo'][0] | dictsort %}
+            <th>{{ esto }}</th>
+            {% endfor %}
+        </tr>
+        {% for esto in abc['archivo'] %}
+        <tr>
+            {% for valor, nada in abc['archivo'][0] | dictsort %}
+            {% if valor == 'COSTO_TOTAL' or valor == 'PORCENTAJES' %}
+            <td>{{ esto[valor] | round(4) }}</td>
+            {% else %}
+            <td>{{ esto[valor] }}</td>
+            {% endif %}
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+    <img src="{{ abc['imagen'] }}" alt="Visión en gráfico de barras">
+</details>
+<br>
 <details>
     <summary class="cursor-pointer">La Espiga Dorada CA</summary>
-    <p></p>
+    <p>
+        La compañía "La Espiga Dorada CA" buscaba optimizar la gestión de inventarios de sus <br>
+        sacos de harina. Ellos implementaron una política de descuentos por volumen para <br>
+        incentivar a las panaderías a realizar pedidos más grandes. Sin embargo, reconocen <br>
+        que almacenar grandes cantidades también implica mayores costos. Además, la preparación <br>
+        de pedidos de diferentes tamaños conlleva costos operativos distintos. <br>
+        Los datos eran los siguientes: 
+    </p>
+    <table>
+        <tr>
+            {% for nombre in nombres_descuento %}
+            <th>{{ nombre }}</th>
+            {% endfor %}
+            {% for dato in info_descuento %}
+            <tr>
+                {% for nombre in nombres_descuento %}
+                <td>{{ dato[nombre] }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tr>
+    </table>
+    <table>
+        <tr>
+            {% for valor, nada in descuento['info'][0] | dictsort %}
+            <th>{{ valor }}</th>
+            {% endfor %}
+        </tr>
+        {% for dato in descuento['info'] %}
+        <tr>
+            {% for valor, nada in descuento['info'][0] | dictsort %}
+            <td>{{ dato[valor] | round(4) }}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+    <img src="{{ descuento['imagen'] }}" alt="">
 </details>
 <br>
 <details>
     <summary class="animate-pulse cursor-pointer">Tienda de discos Shakira</summary>
     <p>
+        Una tienda que ofrecía los últimos discos de Shakira en Cd, generando así <br>
+        mucha alegría a los coleccionistas. La demanda diaria del disco tiene una distribución <br>
+        aproximadamente normal, con una media de 200 discos y desviación estándar de 20 discos. <br>
+        El costo de tener discos en la tienda es de 0.04$ por cada uno por día. A la tienda le cuesta <br>
+        100$ hacer un nuevo pedido. El proveedor especificar un tiempo de entrega de 7 días. <br>
+        Suponiendo que la tienda quiere limitar la probabilidad de que se acaben los discos <br>
+        durante el tiempo de entrega a no mas de 0.02, la política óptima de inventaria <br>
+        de la tienda fue la siguiente:  
+    </p>
+    <p>
+        Los resultados fueron los siguientes: <br>
+        Valor de E: {{ probabilidades['e'] | round(4) }} <br>
+        Valor de Q: {{ probabilidades['q'] | round(4) }} <br>
+        Probabilidad: {{ (probabilidades['r'] * 100) | round(4) }}% <br>
+        {% for esto in r_lista %}
+        Valor de R{{ loop.index }}: {{ esto | round(4) }} <br>
+        {% endfor %}
+        {% if probabilidades['respuesta'] != 0 %}
+        Valor de R: {{ probabilidades['respuesta'] }} <br>
+        {% endif %}
     </p>
 </details>
 <br>
 <details>
-    <summary class="text-indigo-100 animate-bounce cursor-pointer">Gran compañía mensual</summary>
-    <p>MUCHO TEXTO</p>
-</details>
-<br>
-<details>
     <summary class="cursor-pointer">El departamente de hospitales</summary>
-    <p></p>
+    <p>
+        En un departamento de emergencias de un hospital los pacientes <br>
+        llegan a una media 3 clientes por hora. El médico atiende a una tasa de <br>
+        4 clientes por hora. Determine las medidas de desempeño, la probabilidad <br>
+        de que el cliente espere más de una hora, la probabilidad <br>
+        de que hayan más de 5 clientes.
+    </p><br>
+    <p>Pacientes en la cola: {{ colas['info']['Lq'] | round(4) }}</p><br>
+    <p>Pacientes en el sistema: {{ colas['info']['L'] | round(4) }}</p><br>
+    <p>Tiempo promedio en la cola: {{ colas['info']['Wq'] | round(4) }}</p><br>
+    <p>Tiempo promedio en el sistema: {{ colas['info']['W'] | round(4) }}</p><br>
+    <p>
+        Probabilidad de que hayan {{ colas['anterior']['clientes'] | round(4) }} <br>
+        clientes en el sistema: {{ (colas['probabilidad']['Pn'] * 100) | round(4) }}% <br>
+    </p>
+    <p>
+        Probabilidad de espera mayor a {{ colas['anterior']['espera'] | round(4) }} <br>
+        horas: {{ (colas['probabilidad']['PEspera'] * 100) | round(4) }}% <br>
+    </p>
+    <p>
+        Probabilidad de que hayan más de {{ colas['anterior']['mayores'] | round(4) }}: <br>
+        {{ (colas['probabilidad']['Pplus'] * 100) | round(4) }}% <br>
+    </p>
 </details>
+<audio controls>
+    <source src="https://sphinx.acast.com/themagnusarchives/mag-1-angler-fish/media.mp3" type="audio/mpeg">
+</audio>
+<audio controls>
+    <source src="https://sphinx.acast.com/themagnusarchives/mag-2-do-not-open/media.mp3" type="audio/mpeg">
+</audio>
+<audio controls>
+    <source src="https://sphinx.acast.com/themagnusarchives/mag-3-across-the-street/media.mp3" type="audio/mpeg">
+</audio>
 {% endblock %}

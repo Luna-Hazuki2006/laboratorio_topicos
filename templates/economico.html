@@ -1,30 +1,31 @@
 {% extends 'base.html' %}
 {% block content %}
+<h1 class="text-5xl">Bienvenido a la sección de Modelo Económico</h1>
 <form action="/lote" method="post">
-    <fieldset class="border rounded-md p-3">
+    <fieldset class="border rounded-md p-3 bg-emerald-100">
         <legend>Cuándo y cuánto comprar con lote económico</legend>
         <label for="unitario">Valor unitario del producto: </label>
-        <input class="border rounded-md" type="number" name="unitario" id="unitario" required><br><br>
+        <input class="border rounded-md ps-1" type="number" name="unitario" id="unitario" required><br><br>
         <label for="demanda">Demanda: </label>
-        <input class="border rounded-md" type="number" name="demanda" id="demanda" required><br><br>
+        <input class="border rounded-md ps-1" type="number" name="demanda" id="demanda" required><br><br>
         <label for="pedido">Costo por pedido: </label>
-        <input class="border rounded-md" type="number" name="pedido" id="pedido" required><br><br>
+        <input class="border rounded-md ps-1" type="number" name="pedido" id="pedido" required><br><br>
         <label for="almacenamiento">Costo del almacenamiento: </label>
-        <input class="border rounded-md" type="number" name="almacenamiento" id="almacenamiento" required><br><br>
+        <input class="border rounded-md ps-1" type="number" name="almacenamiento" id="almacenamiento" required><br><br>
         <label for="entrega">Tiempo de entrega: </label>
-        <input class="border rounded-md" type="number" name="entrega" id="entrega" required><br><br>
+        <input class="border rounded-md ps-1" type="number" name="entrega" id="entrega" required><br><br>
         <div>
             <input class="hover:cursor-pointer" type="radio" name="medida" id="dias" checked>
-            <label for="dias">Días</label>
+            <label class="hover:cursor-pointer" for="dias">Días</label>
             <input class="hover:cursor-pointer" type="radio" name="medida" id="semanas">
-            <label for="semanas">Semanas</label>
+            <label class="hover:cursor-pointer" for="semanas">Semanas</label>
             <input class="hover:cursor-pointer" type="radio" name="medida" id="meses">
-            <label for="meses">Meses</label>
+            <label class="hover:cursor-pointer" for="meses">Meses</label>
             <input class="hover:cursor-pointer" type="radio" name="medida" id="anual">
-            <label for="anual">Años</label>
+            <label class="hover:cursor-pointer" for="anual">Años</label>
         </div><br>
         <label for="perdida">Costo por pérdida</label>
-        <input class="border rounded-md" type="number" name="perdida" id="perdida" required><br><br>
+        <input class="border rounded-md ps-1" type="number" name="perdida" id="perdida" required><br><br>
         <button class="border rounded-md bg-teal-500 p-1" type="submit">Obtener respuestas</button>
     </fieldset>
 </form>

@@ -1,5 +1,6 @@
 {% extends 'descuento.html' %}
 {% block respuesta %}
+<h3 class="text-4xl text-center m-5">Tabulación de descuento</h3>
 <div id="tabla">
     <table>
         <tr>
@@ -14,8 +15,9 @@
         {% endfor %}
     </table>
 </div>
+<h3 class="text-4xl text-center m-5">Gráfico de descuentos</h3>
 <div>
-    <h6 style="display: none;" id="oscuro">{{ resultado['info'] | tojson }}</h6>
-    <img id="imagen" src="{{ resultado['imagen'] }}" alt="Diagrama de modelo de descuentos">
+    <h6 style="display: none;" id="oscuro">{{ resultado['info'] | tojson() }}</h6>
+    <img class="mr-auto ml-auto" id="imagen" src="{{ resultado['imagen'] }}" alt="Diagrama de modelo de descuentos">
 </div>
 {% endblock %}
