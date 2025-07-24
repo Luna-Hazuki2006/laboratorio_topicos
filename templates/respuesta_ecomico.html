@@ -1,4 +1,7 @@
 {% extends 'economico.html' %}
 {% block respuesta %}
-
+<p>Costo total: {{ cuerpo['C'] }}</p>
+<p>Q: {{ cuerpo['Q'] }}</p>
+<p>T: {{ cuerpo['T'] }}</p>
+<p>Punto de reorden: {{ cuerpo['R'] }}</p>
 {% endblock %}

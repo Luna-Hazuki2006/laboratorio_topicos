@@ -46,7 +46,15 @@ def iniciar(request : Request):
         contenido_descuento = csv.DictReader(archivo)
         info_descuento = [dato for dato in contenido_descuento]
         nombres_descuento = contenido_descuento.fieldnames
+    titulos_lotes = []
+    info_lotes = []
+    with open('estacionales.csv', 'r') as archivo: 
+        contenido_lotes = csv.DictReader(archivo)
+        info_lotes = [dato for dato in contenido_lotes]
+        titulos_lotes = contenido_lotes.fieldnames
+    descuento_10 = descontar_unido('rangos.csv', {'demanda': 10, 'producto': 25}, True)
     descuento = descontar_unido('rangos.csv', {'demanda': 40, 'producto': 55}, True)
+    descuento_45 = descontar_unido('rangos.csv', {'demanda': 45, 'producto': 25}, True)
     info_colas = colear(3, 4)
     probabilidad_colas = colear_probabilidad(3, 4, 5, 1, 3)
     datos_probabilidades = dato_form_probabilistico(pedido=100, almacenamiento=0.04, acumulado=200, 
@@ -67,7 +75,9 @@ def iniciar(request : Request):
         'info_abc': info_abc, 'nombres_abc': nombres_abc, 
         'abc': abc, 'info_descuento': info_descuento, 
         'nombres_descuento': nombres_descuento, 'descuento': descuento, 
-        'colas': colas, 'probabilidades': probabilidades
+        'colas': colas, 'probabilidades': probabilidades, 
+        'descuento_10': descuento_10, 'descuento_45': descuento_45, 
+        'info_lotes': info_lotes, 'titulos_lotes': titulos_lotes
     })
 
 @app.get('/abc')

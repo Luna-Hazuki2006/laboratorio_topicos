@@ -10,6 +10,10 @@ h1 {
     margin: 3%;
 }
 
+summary:hover {
+    cursor: pointer;
+}
+
 table {
     text-align: center;
     margin-left: auto;

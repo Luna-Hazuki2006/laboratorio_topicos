@@ -21,4 +21,9 @@ def lotear(unitario : float, demanda : float, pedido : float, almacenamiento : f
             if (entrega - m * T) > 0 and (entrega - (m + 1) * T) < 0: R = demanda * (entrega - m * T)
             else: m += 1
     C = (unitario * demanda) + (demanda / Q) + (0.5 * almacenamiento * Q) 
-    return {'hola': 'mundo'}
+    return {
+        'C': C, 
+        'Q': Q, 
+        'T': T, 
+        'R': R
+    }
