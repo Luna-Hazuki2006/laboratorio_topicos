@@ -13,6 +13,7 @@ from metodos.probabilistico import probabilicear
 from metodos.lote import lotear
 from metodos.descuento import descontar_separado, descontar_unido
 from metodos.colas import colear, colear_probabilidad
+from metodos.alternos import alternar
 from modelos import (
     datos_form_abc, 
     dato_form_probabilistico, 
@@ -238,3 +239,27 @@ def obtener_cola(request : Request, datos : Annotated[dato_form_cola, Form()]):
     }
     pprint(todo)
     return templates.TemplateResponse(request, 'respuesta_colas.html', context=todo)
+
+@app.get('/fluctuaciones')
+def mostrar_fluctuaciones(request : Request): 
+    return templates.TemplateResponse(request, 'alterno.html')
+
+@app.post('/fluctuaciones')
+async def obtener_fluctuaciones(request : Request, 
+                          almacenamiento : Annotated[float, Form()], 
+                          pedido : Annotated[float, Form()], 
+                          entrega : Annotated[float, Form()], 
+                          archivo : Annotated[UploadFile, File()]): 
+    titulo = f'especial_{time.time_ns() * 1000}.csv'
+    info = await archivo.read()
+    pprint(info)
+    titulo = f'especial_{time.time_ns() * 1000}.csv'
+    with open(titulo, 'wb') as nuevo:
+        nuevo.write(info)
+    await archivo.close()
+    datos = alternar(almacenamiento, entrega, pedido, titulo)
+    return templates.TemplateResponse(request, 'respuesta_alterno.html', {
+        'info': datos['info'], 
+        'gerentes': datos['gerentes'], 
+        'empleados': datos['empleados']
+    })

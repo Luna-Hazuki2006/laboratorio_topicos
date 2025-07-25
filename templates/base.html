@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="{{ url_for('static', path='style.css') }}">
     <link rel="shortcut icon" href="{{ url_for('static', path='icono.ico') }}" type="image/x-icon">
     <script src="{{ url_for('static', path='index.js') }}" defer></script>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <title>Inventarios</title>
 </head>
 <body class="m-5">
@@ -24,6 +24,7 @@
             </div>
         </details>
         <span class="hover:underline bg-emerald-100"><a href="/colas">Modelo de colas</a></span>
+        <span class="hover:underline bg-emerald-100"><a href="/fluctuaciones">Caso especial ✨</a></span>
     </nav>
     {% block content %}{% endblock %}
 </body>

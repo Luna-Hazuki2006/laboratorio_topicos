@@ -1,0 +1,12 @@
+{% extends 'alterno.html' %}
+{% block respuesta %}
+<h3 class="text-4xl text-center m-5">Respuesta del problema</h3>
+<p><b>En gerentes: </b></p>
+{% for esto in gerentes %}
+<p>{{ esto[0] }}: {{ esto[1] }}</p>
+{% endfor %}
+<p><b>En empleados: </b></p>
+{% for esto in empleados %}
+<p>{{ esto[0] }}: {{ esto[1] }}</p>
+{% endfor %}
+{% endblock %}

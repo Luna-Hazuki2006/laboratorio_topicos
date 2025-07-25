@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="text-center text-5xl">Bienvenido a un caso especial ✨✨✨</h1>
+<h2 class="text-center text-4xl">El lote económico especializado para empleados y gerentes</h2>
+<p>
+    Aquí verá un ejemplo del uso de lote económico en un casos anuales y trimestrales<br>
+</p>
+<form action="/fluctuaciones" method="post" enctype="multipart/form-data">
+    <fieldset class="border rounded-md p-3 bg-emerald-100">
+        <label for="pedido">Costo por pedido: </label>
+        <input type="number" name="pedido" id="pedido" class="border rounded-md ps-1" value="55" required><br><br>
+        <label for="almacenamiento">Costo de almacenamiento: </label>
+        <input type="number" name="almacenamiento" id="almacenamiento" class="border rounded-md ps-1" value="0.05" required><br><br>
+        <label for="entrega">Tiempo de entrega: </label>
+        <input type="number" name="entrega" id="entrega" class="border rounded-md ps-1" value="3" required><br><br>
+        <label for="archivo">Archivo csv de los datos: </label> 
+        <small>
+            Tiene que ser una archivo csv que muestre todos los meses 
+        </small> <br>
+        <input 
+            class="hover:cursor-pointer hover:bg-teal-500 border rounded-md border-dashed p-1" 
+            type="file" name="archivo" id="archivo" accept="text/csv">
+        <br> <br>
+        <button class="border rounded-md p-1 bg-teal-500 hover:cursor-pointer" type="submit">Obtener respuesta</button>
+    </fieldset>
+</form>
+{% block respuesta %}{% endblock %}
+{% endblock %}
